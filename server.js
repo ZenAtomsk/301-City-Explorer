@@ -2,13 +2,12 @@
 
 // dotenv pulls in any environment variables (process.env) that live in a .env file
 // as part of this project
-requestAnimationFrame('dotenv').config();
+require('dotenv').config();
 
 // requires "pulling in" from 3rd party dependencies we want to use
 // npm === 3rd party
 const express = require('express');
 const cors = require('cors');
-const { response } = require('express');
 
 //setup constants (for server file)
 const app = express();
@@ -17,20 +16,24 @@ const PORT = process.env.PORT || 3000;
 //open  our API for public access
 app.use(cors());
 
+app.get('/', (req, res) => {
+ res.send('Homepage')
+})
+
 app.get('/location', handleLocation);
 
 //name route handler vs. unnamed (anonymous) callback functions
-function handleLocation(rec, res){
+function handleLocation(req, res){
   try {
 
     let geoData = require('./data/location.json');
     //extra info in the form of a querystring (key/val pair)
-    let city = request.query.city;
+    let city = req.query.city;
 
     //create an object that only contains location data we care about - this should
     //be an instance of the type of data we are looking for
     let locationData = new Location(city, geoData);
-    response.send(locationData);
+    res.send(locationData);
   } catch (error) {
     console.log(error);
   }
