@@ -25,6 +25,13 @@ app.get('/', (req, res) => {
 
 app.get('/location', handleLocation);
 
+function Location(city, geoData) {
+  this.search_query = city;
+  this.formatted_query = geoData[0].display_name;
+  this.latitude = geoData[0].lat;
+  this.longitude = geoData[0].lon;
+}
+
 //name route handler vs. unnamed (anonymous) callback functions
 function handleLocation(req, res){
   try {
@@ -38,15 +45,8 @@ function handleLocation(req, res){
     let locationData = new Location(city, geoData);
     res.send(locationData);
   } catch (error) {
-    console.log(error);
+    console.log('handleLocation', error);
   }
-}
-
-function Location(city, geoData) {
-  this.search_query = city;
-  this.formatted_query = geoData[0].display_name;
-  this.latitude = geoData[0].lat;
-  this.longitude = geoData[0].lon;
 }
 
 //////////////weather
@@ -60,7 +60,7 @@ function Weather(city, weatherData) {
 
 function handleWeather(req, res) {
   try{
-    const weatherData = require('.data/weather.json');
+    const weatherData = require('./data/weather.json');
     const city = req.query.city;
     let forecastData = [];
     weatherData.data.forEach(dateData => {
@@ -68,7 +68,7 @@ function handleWeather(req, res) {
     });
     res.json(forecastData);
   } catch (error) {
-    console.log(error);
+    console.log('handleWeather', error);
   }
 }
 
