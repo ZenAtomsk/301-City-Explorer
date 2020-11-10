@@ -8,6 +8,7 @@ require('dotenv').config();
 // npm === 3rd party
 const express = require('express');
 const cors = require('cors');
+const { response } = require('express');
 
 //setup constants (for server file)
 const app = express();
@@ -17,8 +18,10 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 
 app.get('/', (req, res) => {
- res.send('Homepage')
-})
+  res.send('Homepage');
+});
+
+///////location
 
 app.get('/location', handleLocation);
 
@@ -42,9 +45,36 @@ function handleLocation(req, res){
 function Location(city, geoData) {
   this.search_query = city;
   this.formatted_query = geoData[0].display_name;
-  this.latitude = geoData[0].let;
+  this.latitude = geoData[0].lat;
   this.longitude = geoData[0].lon;
 }
+
+//////////////weather
+
+app.get('/weather', handleWeather);
+
+function Weather(city, dateData) {
+  this.forecast = dateData.weather.description;
+  this.time = dateData.valid_date;
+}
+
+function handleWeather(req, res) {
+  try{
+    const weatherData = require('.data/weather.json');
+    const city = req.query.city;
+    let forecastData = [];
+    weatherData.data.forEach(dateData => {
+      forecastData.push(new Weather(city, dateData));
+    })
+    res.json(forecastData);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+app.get('*', (req, res) => {
+  res.status(404).send('Sorry, not found!');
+});
 
 app.listen(PORT, () => {
   console.log(`server up: ${PORT}`);
