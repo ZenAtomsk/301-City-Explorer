@@ -53,9 +53,9 @@ function Location(city, geoData) {
 
 app.get('/weather', handleWeather);
 
-function Weather(city, dateData) {
-  this.forecast = dateData.weather.description;
-  this.time = dateData.valid_date;
+function Weather(city, weatherData) {
+  this.forecast = weatherData.weather.description;
+  this.time = weatherData.valid_date;
 }
 
 function handleWeather(req, res) {
@@ -65,7 +65,7 @@ function handleWeather(req, res) {
     let forecastData = [];
     weatherData.data.forEach(dateData => {
       forecastData.push(new Weather(city, dateData));
-    })
+    });
     res.json(forecastData);
   } catch (error) {
     console.log(error);
