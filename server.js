@@ -46,6 +46,8 @@ function handleLocation(req, res){
     res.send(locationData);
   } catch (error) {
     console.log('handleLocation', error);
+    // res.send(new ErrorMsg(500));
+    res.status(500).send(new ErrorMsg(500));
   }
 }
 
@@ -53,7 +55,7 @@ function handleLocation(req, res){
 
 app.get('/weather', handleWeather);
 
-function Weather(city, weatherData) {
+function Weather(weatherData) {
   this.forecast = weatherData.weather.description;
   this.time = weatherData.valid_date;
 }
@@ -61,20 +63,29 @@ function Weather(city, weatherData) {
 function handleWeather(req, res) {
   try{
     const weatherData = require('./data/weather.json');
-    const city = req.query.city;
+    let city = req.query.city;
     let forecastData = [];
     weatherData.data.forEach(dateData => {
-      forecastData.push(new Weather(city, dateData));
+      forecastData.push(new Weather(dateData));
     });
     res.json(forecastData);
   } catch (error) {
     console.log('handleWeather', error);
+    // res.send(new ErrorMsg(500));
+    res.status(500).send(new ErrorMsg(500));
   }
 }
 
 app.get('*', (req, res) => {
   res.status(404).send('Sorry, not found!');
+  // res.send(new ErrorMsg(500));
+  // res.send(new ErrorMsg());
 });
+
+function ErrorMsg(){
+  // this.status = status;
+  this.responseText = 'Sorry, something went wrong';
+}
 
 app.listen(PORT, () => {
   console.log(`server up: ${PORT}`);
