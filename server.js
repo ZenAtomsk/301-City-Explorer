@@ -87,6 +87,23 @@ function handleWeather(req, res) {
   }
 }
 
+/////////////trails
+
+app.get('/trails', handleTrails);
+
+function Trails(trailData) {
+  this.name = trailData.name;
+  this.location = trailData.location;
+  this.length = trailData.length;
+  this.stars = trailData.stars;
+  this.star_votes = trailData.star_votes;
+  this.summary = trailData.summary
+  this.trail_url = trailData.trail_url;
+  this.conditions = trailData.conditions;
+  this.condition_date = trailData.condition_date;
+  this.condition_time = trailData.condition_time;
+}
+
 
 //////////catch all
 
