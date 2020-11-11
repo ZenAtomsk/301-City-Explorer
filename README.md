@@ -13,20 +13,19 @@
 <!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
 
 ## Change Log
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an examples:
+Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an examples:
 
 01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource.
 
 ## Credits and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
--->
+Audrena Vacirca
 
-Number and name of feature: ________________________________
 
-Estimate of time needed to complete: _____
+Number and name of feature: Feature 1
+Estimate of time needed to complete: 9 hours
 
-Start time: _____
+Start time: 11:30
 
-Finish time: _____
+Finish time: 06:45
 
-Actual time needed to complete: _____
+Actual time needed to complete: 7 hours 15 min (there were breaks and stuff in between)

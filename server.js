@@ -77,13 +77,13 @@ function handleWeather(req, res) {
 }
 
 app.get('*', (req, res) => {
-  res.status(404).send('Sorry, not found!');
-  // res.status(500).send(new ErrorMsg(500));
+  // res.status(404).send('Sorry, not found!');
+  res.status(500).send(new ErrorMsg(500));
   // res.send(new ErrorMsg());
 });
 
-function ErrorMsg(){
-  // this.status = status;
+function ErrorMsg(status){
+  this.status = status;
   this.responseText = 'Sorry, something went wrong';
 }
 
