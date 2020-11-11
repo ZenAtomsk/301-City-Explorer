@@ -198,3 +198,4 @@ bld/
 
 /.env
 /.node_modules
+/demoserver.js
