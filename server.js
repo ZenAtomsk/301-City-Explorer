@@ -72,7 +72,7 @@ function handleLocation(req, res) {
               client.query(SQL2, geoDataArray)
                 .then(() => {
                   console.log('hopefully rows', locationInfo);
-                  res.json(locationInfo);
+                  res.send(locationInfo);
                 })
                 .catch(err => {
                   res.status(500).send(err);
@@ -105,7 +105,7 @@ function handleWeather(req, res) {
         console.log('this is data:', data);
         let results = data.body;
         let weatherData = results.data.map(date => new Weather(date));
-        res.json(weatherData);
+        res.send(weatherData);
       });
   } catch(error) {
     res.status(500).send(new ErrorMsg(500));
@@ -114,20 +114,36 @@ function handleWeather(req, res) {
 
 /////////////trails
 
-// app.get('/trails', handleTrails);
+app.get('/trails', handleTrails);
 
-// function Trails(trailData) {
-//   this.name = trailData.name;
-//   this.location = trailData.location;
-//   this.length = trailData.length;
-//   this.stars = trailData.stars;
-//   this.star_votes = trailData.star_votes;
-//   this.summary = trailData.summary
-//   this.trail_url = trailData.trail_url;
-//   this.conditions = trailData.conditions;
-//   this.condition_date = trailData.condition_date;
-//   this.condition_time = trailData.condition_time;
-// }
+function Trails(trailData) {
+  this.name = trailData.name;
+  this.location = trailData.location;
+  this.length = trailData.length;
+  this.stars = trailData.stars;
+  this.star_votes = trailData.star_votes;
+  this.summary = trailData.summary
+  this.trail_url = trailData.trail_url;
+  this.conditions = trailData.conditions;
+  this.condition_date = trailData.condition_date;
+  this.condition_time = trailData.condition_time;
+}
+
+function handleTrails(req, res){
+  try{
+    let city = req.query.search_query;
+    let lat = req.query.latitude;
+    let lon = req.query.longitude;
+    let url = `https://www.hikingproject.com/data/get-trails?lat=${lat}&lon=${lon}&key`;
+    
+    superagent.get(url)
+      .then(data => {
+        let trailData = data.body.trails.map(data2 => new Trail(data2)); 
+      })
+      res.send(trailData);
+  })
+  
+}
 
 
 //////////catch all
